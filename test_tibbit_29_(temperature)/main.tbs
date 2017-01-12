@@ -1,0 +1,22 @@
+include "global.tbh"
+
+'====================================================================
+sub on_sys_init()
+	select case tbt29_init(YES)
+	case TBT29_WRONG_MFGID:
+		sys.debugprint("DEFAULT_MFGID_INCORRECT"+CR_LF)
+		sys.halt
+
+	case TBT29_WRONG_DEVID_REVISION:
+		sys.debugprint("TBT29_WRONG_DEVID_REVISION"+CR_LF)
+		sys.halt
+
+	case TBT29_NO_SSI_AVAILABLE:
+		sys.debugprint("SSI channel could not be allocated, using bit banging instead."+CR_LF)
+
+	end select
+end sub
+
+sub on_sys_timer()
+	sys.debugprint(ftostr(tbt29_get_c(),FTOSTR_MODE_AUTO,4)+" C"+CR_LF)
+end sub
